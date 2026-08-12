@@ -1,0 +1,17 @@
+{
+  "name": "design-kernel",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "AI frontend design orchestration layer and reusable project template",
+  "scripts": {
+    "design:setup": "node atelierOS/scripts/setup.mjs",
+    "design:sync": "node atelierOS/scripts/sync.mjs",
+    "design:doctor": "node atelierOS/scripts/doctor.mjs",
+    "design:update": "node atelierOS/scripts/update.mjs",
+    "design:check": "node atelierOS/scripts/check.mjs"
+  },
+  "engines": {
+    "node": ">=18.18"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "projectRoot": "./src",
+  "defaultProfile": "saas-product",
+  "engines": {
+    "taste": {
+      "enabled": true,
+      "repository": "https://github.com/Leonxlnx/taste-skill.git",
+      "entrypoint": "skills/taste-skill/SKILL.md"
+    },
+    "impeccable": {
+      "enabled": true,
+      "repository": "https://github.com/pbakaus/impeccable.git",
+      "entrypoint": "plugin/skills/impeccable/SKILL.md"
+    }
+  },
+  "agents": {
+    "codex": true,
+    "cursor": true,
+    "claude": true,
+    "copilot": false
+  },
+  "checks": {
+    "detector": [
+      "design:detector",
+      "impeccable:detect"
+    ],
+    "lint": [
+      "lint"
+    ],
+    "typecheck": [
+      "typecheck"
+    ],
+    "accessibility": [
+      "test:a11y",
+      "accessibility"
+    ],
+    "tests": [
+      "test"
+    ]
+  }
+}
