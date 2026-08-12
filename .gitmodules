@@ -1,0 +1,6 @@
+[submodule "atelierOS/engines/taste"]
+	path = atelierOS/engines/taste
+	url = https://github.com/Leonxlnx/taste-skill.git
+[submodule "atelierOS/engines/impeccable"]
+	path = atelierOS/engines/impeccable
+	url = https://github.com/pbakaus/impeccable.git
