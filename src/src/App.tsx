@@ -1,4 +1,4 @@
-import { useEffect, useState, useSyncExternalStore } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 
 const REPOSITORY_URL = 'https://github.com/MinhTuan2405/AtelierOS';
 
@@ -135,9 +135,9 @@ function NavLinks({ route, mobile = false }: { route: Route; mobile?: boolean })
   );
 }
 
-function SiteHeader({ route }: { route: Route }) {
+function SiteHeader({ route, scrolled }: { route: Route; scrolled: boolean }) {
   return (
-    <header className="site-header">
+    <header className={`site-header${scrolled ? ' is-scrolled' : ''}`}>
       <a className="brand" href="#/" aria-label="AtelierOS home">
         <span className="brand-mark" aria-hidden="true"><i /><i /><i /></span>
         <span>AtelierOS</span>
@@ -177,8 +177,37 @@ function SiteFooter() {
 }
 
 function RouteDiagram() {
+  const diagramRef = useRef<HTMLElement>(null);
+
+  const moveDiagram = (event: React.PointerEvent<HTMLElement>) => {
+    if (event.pointerType === 'touch') return;
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+    const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+    const depths = [0.25, 0.55, 0.35, 0.7, 0.9];
+    event.currentTarget.querySelectorAll<HTMLElement>('li').forEach((node, index) => {
+      node.style.setProperty('--node-x', `${x * 18 * depths[index]}px`);
+      node.style.setProperty('--node-y', `${y * 18 * depths[index]}px`);
+    });
+    event.currentTarget.style.setProperty('--reticle-x', `${event.clientX - bounds.left}px`);
+    event.currentTarget.style.setProperty('--reticle-y', `${event.clientY - bounds.top}px`);
+  };
+
+  const resetDiagram = () => {
+    diagramRef.current?.querySelectorAll<HTMLElement>('li').forEach((node) => {
+      node.style.setProperty('--node-x', '0px');
+      node.style.setProperty('--node-y', '0px');
+    });
+  };
+
   return (
-    <figure className="route-diagram" aria-labelledby="route-diagram-title">
+    <figure
+      ref={diagramRef}
+      className="route-diagram"
+      aria-labelledby="route-diagram-title"
+      onPointerMove={moveDiagram}
+      onPointerLeave={resetDiagram}
+    >
       <figcaption id="route-diagram-title">
         <span>ROUTE / LANDING-PAGE</span>
         <span>REVIEW REQUIRED</span>
@@ -207,6 +236,7 @@ function RouteDiagram() {
       </ol>
       <div className="diagram-axis axis-x" aria-hidden="true">X / 1440</div>
       <div className="diagram-axis axis-y" aria-hidden="true">Y / 900</div>
+      <div className="diagram-reticle" aria-hidden="true" />
     </figure>
   );
 }
@@ -227,7 +257,7 @@ function HomePage() {
         <RouteDiagram />
       </section>
 
-      <section className="manifesto-section page-grid" aria-labelledby="memory-title">
+      <section className="manifesto-section page-grid" aria-labelledby="memory-title" data-reveal>
         <div className="section-number">01 / MEMORY</div>
         <div className="manifesto-copy">
           <h2 id="memory-title">What survives the prompt?</h2>
@@ -240,7 +270,7 @@ function HomePage() {
         </dl>
       </section>
 
-      <section className="routing-section page-grid" aria-labelledby="routing-title">
+      <section className="routing-section page-grid" aria-labelledby="routing-title" data-reveal>
         <div className="routing-heading">
           <div className="section-number">02 / ROUTING</div>
           <h2 id="routing-title">One request.<br />An explicit route.</h2>
@@ -255,14 +285,14 @@ function HomePage() {
       </section>
 
       <section className="engines-section" aria-labelledby="engines-title">
-        <div className="engines-intro page-grid">
+        <div className="engines-intro page-grid" data-reveal>
           <div>
             <div className="section-number">03 / ENGINES</div>
             <h2 id="engines-title">Two engines.<br />One chain of command.</h2>
           </div>
           <p>AtelierOS does not average design opinions. Product context and project memory outrank replaceable engine advice.</p>
         </div>
-        <div className="engine-planes">
+        <div className="engine-planes" data-reveal>
           <article className="engine-plane taste-plane">
             <div className="plane-code">A / TASTE</div>
             <h3>Distinct on purpose.</h3>
@@ -278,7 +308,7 @@ function HomePage() {
         </div>
       </section>
 
-      <section className="repo-section page-grid" aria-labelledby="repo-title">
+      <section className="repo-section page-grid" aria-labelledby="repo-title" data-reveal>
         <div className="file-tree" aria-label="AtelierOS repository structure">
           <div className="tree-header"><span>ROOT</span><span>SOURCE OF TRUTH</span></div>
           <pre>{`atelierOS/
@@ -301,7 +331,7 @@ src/
         </div>
       </section>
 
-      <section className="closing-section page-grid" aria-labelledby="closing-title">
+      <section className="closing-section page-grid" aria-labelledby="closing-title" data-reveal>
         <p>Ready to route the next interface?</p>
         <h2 id="closing-title">Install the system.<br />Keep the judgment.</h2>
         <div>
@@ -337,7 +367,7 @@ function CodeBlock({ children, label }: { children: string; label: string }) {
 
 function PageIntro({ code, title, children }: { code: string; title: string; children: React.ReactNode }) {
   return (
-    <header className="page-intro page-grid">
+    <header className="page-intro page-grid" data-reveal>
       <p className="page-code">{code}</p>
       <div>
         <h1 tabIndex={-1}>{title}</h1>
@@ -352,7 +382,7 @@ function DocsPage() {
     <>
       <PageIntro code="MANUAL / 01" title="Documentation">Install the toolkit, understand its boundaries, and route substantial frontend work through one explicit system.</PageIntro>
       <div className="docs-layout page-grid">
-        <aside className="docs-index" aria-label="Documentation index">
+        <aside className="docs-index" aria-label="Documentation index" data-reveal>
           <p>ON THIS PAGE</p>
           <a href="#/docs/install">Install</a>
           <a href="#/docs/structure">Structure</a>
@@ -361,7 +391,7 @@ function DocsPage() {
           <a href="#/docs/engines">Engines</a>
         </aside>
         <article className="docs-content">
-          <section id="install">
+          <section id="install" data-reveal>
             <span className="doc-number">01</span>
             <h2 tabIndex={-1}>Install</h2>
             <p>Clone with submodules so both replaceable engines are available, then initialize the workspace adapters and run the health check.</p>
@@ -372,7 +402,7 @@ pnpm design:setup
 pnpm design:doctor`}</CodeBlock>
             <div className="callout"><strong>Requirement</strong><span>Node.js 18.18 or newer and pnpm. Impeccable's own development tooling requires a newer Node version only when working inside that upstream repository.</span></div>
           </section>
-          <section id="structure">
+          <section id="structure" data-reveal>
             <span className="doc-number">02</span>
             <h2 tabIndex={-1}>System structure</h2>
             <p>The toolkit and project remain separate. Root files orchestrate the whole workspace; `atelierOS/` owns reusable policy; `src/` owns the actual product.</p>
@@ -382,7 +412,7 @@ pnpm design:doctor`}</CodeBlock>
               <div><strong>src/</strong><span>Application + product context + design memory</span></div>
             </div>
           </section>
-          <section id="commands">
+          <section id="commands" data-reveal>
             <span className="doc-number">03</span>
             <h2 tabIndex={-1}>Commands</h2>
             <div className="command-list">
@@ -393,7 +423,7 @@ pnpm design:doctor`}</CodeBlock>
               <div><code>pnpm design:check</code><p>Discover and run the quality capabilities exposed by the application project.</p></div>
             </div>
           </section>
-          <section id="memory">
+          <section id="memory" data-reveal>
             <span className="doc-number">04</span>
             <h2 tabIndex={-1}>Design memory</h2>
             <p>Context files answer different questions. Keeping those concerns separate prevents a task brief from silently becoming permanent policy.</p>
@@ -404,7 +434,7 @@ pnpm design:doctor`}</CodeBlock>
               <div><dt>DECISIONS.md</dt><dd>An append-only record of durable choices and the alternatives they replaced.</dd></div>
             </dl>
           </section>
-          <section id="engines">
+          <section id="engines" data-reveal>
             <span className="doc-number">05</span>
             <h2 tabIndex={-1}>Engine routing</h2>
             <p>Taste and Impeccable advise the kernel; neither outranks product requirements, project memory, accessibility, or established conventions.</p>
@@ -426,9 +456,9 @@ function ChangelogPage() {
     <>
       <PageIntro code="RECORD / CHANGELOG" title="Changelog">A concise record of meaningful changes to the toolkit, its public surface, and the system it directs.</PageIntro>
       <div className="changelog page-grid">
-        <aside><span>Current</span><strong>Unreleased</strong></aside>
+        <aside data-reveal><span>Current</span><strong>Unreleased</strong></aside>
         <div className="release-list">
-          <article>
+          <article data-reveal>
             <header><div><span>UNRELEASED</span><h2>Public project website</h2></div><time>In progress</time></header>
             <ul>
               <li>Added Home, Docs, Changelog, and Live Demo destinations.</li>
@@ -437,7 +467,7 @@ function ChangelogPage() {
               <li>Replaced placeholder product and design memory with durable project context.</li>
             </ul>
           </article>
-          <article>
+          <article data-reveal>
             <header><div><span>V0.1.0</span><h2>System foundation</h2></div><time>Initial release</time></header>
             <ul>
               <li>Introduced the Design Director and Design Reviewer kernel skills.</li>
@@ -493,7 +523,7 @@ function RouteComposer() {
       </div>
       <div className="composer-output">
         <div className="output-header"><span>ROUTE PREVIEW / 03</span><span>NOT EXECUTED</span></div>
-        <dl>
+        <dl key={surface} className="route-update">
           <div><dt>Classification</dt><dd>{surfaceLabels[surface]}</dd></div>
           <div><dt>Profile</dt><dd>{plan.profile.file ? <code>{plan.profile.file}.md</code> : plan.profile.label}</dd></div>
           <div><dt>Workflow</dt><dd className="workflow-chain">{plan.workflow.map((step, index) => <span key={step}>{index > 0 && <i aria-hidden="true">→</i>}<code>{step}</code></span>)}</dd></div>
@@ -512,9 +542,9 @@ function DemoPage() {
     <>
       <PageIntro code="ROUTER / LIVE DEMO" title="Compose a route">Choose a surface and see how AtelierOS assigns context, profile, workflow, engines, and review responsibility.</PageIntro>
       <section className="demo-section page-grid" aria-label="AtelierOS route composer">
-        <RouteComposer />
+        <div className="composer-reveal" data-reveal><RouteComposer /></div>
       </section>
-      <section className="demo-notes page-grid" aria-labelledby="demo-notes-title">
+      <section className="demo-notes page-grid" aria-labelledby="demo-notes-title" data-reveal>
         <h2 id="demo-notes-title">What this demo proves</h2>
         <div>
           <p><strong>Routing is explicit.</strong> The task category changes the workflow and engine balance instead of applying every design opinion at once.</p>
@@ -542,6 +572,14 @@ export function App() {
   const route = routeFromPath(hashPath);
   const section = hashPath.split('/')[1];
   const Page = pages[route] ?? NotFoundFallback;
+  const [headerScrolled, setHeaderScrolled] = useState(false);
+
+  useEffect(() => {
+    const updateHeader = () => setHeaderScrolled(window.scrollY > 24);
+    updateHeader();
+    window.addEventListener('scroll', updateHeader, { passive: true });
+    return () => window.removeEventListener('scroll', updateHeader);
+  }, []);
 
   useEffect(() => {
     document.title = `${navigation.find((item) => item.route === route)?.label ?? 'Home'} | AtelierOS`;
@@ -557,10 +595,33 @@ export function App() {
     });
   }, [hashPath, route, section]);
 
+  useEffect(() => {
+    const targets = document.querySelectorAll<HTMLElement>('#main-content [data-reveal]');
+
+    if (!document.documentElement.classList.contains('motion-ready')) {
+      targets.forEach((target) => target.classList.add('is-visible'));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        });
+      },
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.12 },
+    );
+
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
+  }, [route]);
+
   return (
     <div className="site-shell">
       <a className="skip-link" href="#main-content">Skip to content</a>
-      <SiteHeader route={route} />
+      <SiteHeader route={route} scrolled={headerScrolled} />
       <main id="main-content" key={route} className="page-enter">
         <Page />
       </main>

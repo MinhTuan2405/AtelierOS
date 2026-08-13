@@ -60,3 +60,24 @@ and scale the mark too small within its canvas.
 
 **Impact:** The product website and starter share `/favicon.svg` as a recognizable
 browser-level identity.
+
+## 2026-08-13: Motion follows the route
+
+Website motion uses a single authored hero sequence that drafts the route diagram
+in processing order. On pointer-capable devices, the diagram responds with
+depth-weighted node movement and a drafting reticle so the system map feels
+inspectable. Supporting content reveals once at the viewport edge in small
+semantic groups, while interactive route changes receive a short local
+confirmation. Content remains visible without JavaScript or IntersectionObserver,
+and spatial motion is removed when `prefers-reduced-motion` is enabled.
+
+This keeps motion specific to AtelierOS orchestration, avoids ambient loops and
+layout animation, and requires no runtime animation dependency.
+
+The site header remains fixed for persistent route access. It enters once from
+the viewport edge and transitions from 72px to 60px after the page begins to
+scroll, with layout space reserved so content does not jump.
+
+Primary navigation keeps the fixed header spatially stable and uses one short
+content entrance after each hash-route update. Browser snapshot transitions are
+avoided because they duplicate page motion and delay route feedback.

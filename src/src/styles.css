@@ -109,6 +109,7 @@ summary {
   max-width: 1440px;
   min-height: 100vh;
   margin: 0 auto;
+  padding-top: 72px;
   overflow: clip;
   background: color-mix(in srgb, var(--canvas) 94%, transparent);
   border-inline: 1px solid var(--line);
@@ -122,16 +123,37 @@ summary {
 }
 
 .site-header {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 50%;
   z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: min(100%, 1440px);
   min-height: 72px;
   padding-inline: var(--gutter);
   background: color-mix(in srgb, var(--canvas) 92%, transparent);
   border-bottom: 1px solid var(--line);
+  border-inline: 1px solid var(--line);
   backdrop-filter: blur(14px);
+  transform: translateX(-50%);
+  animation: header-in 560ms var(--ease-out) both;
+  transition:
+    min-height 280ms var(--ease-out),
+    background-color 280ms ease,
+    border-color 280ms ease;
+}
+
+.site-header.is-scrolled {
+  min-height: 60px;
+  background: color-mix(in srgb, var(--canvas) 97%, transparent);
+  border-bottom-color: var(--line-strong);
+}
+
+@keyframes header-in {
+  from { opacity: 0; transform: translate(-50%, -100%); }
+  to { opacity: 1; transform: translate(-50%, 0); }
 }
 
 .brand {
@@ -206,6 +228,13 @@ summary {
   min-height: 44px;
   color: var(--ink-soft);
   text-decoration: none;
+  transition: color 180ms ease, transform 180ms var(--ease-out);
+}
+
+.desktop-nav a:hover,
+.mobile-nav nav a:hover {
+  color: var(--ink);
+  transform: translateY(-2px);
 }
 
 .desktop-nav a::after {
@@ -247,12 +276,81 @@ summary {
 }
 
 .page-enter {
-  animation: page-in 500ms var(--ease-out) both;
+  animation: page-in 220ms var(--ease-out) both;
 }
 
 @keyframes page-in {
-  from { opacity: 0; transform: translateY(14px); }
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.motion-ready [data-reveal] > * {
+  opacity: 0;
+  transform: translateY(3rem);
+  transition:
+    opacity 620ms var(--ease-out),
+    transform 780ms var(--ease-out);
+}
+
+.motion-ready [data-reveal].is-visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.motion-ready [data-reveal].is-visible > :nth-child(2) { transition-delay: 70ms; }
+.motion-ready [data-reveal].is-visible > :nth-child(3) { transition-delay: 140ms; }
+.motion-ready [data-reveal].is-visible > :nth-child(4) { transition-delay: 210ms; }
+.motion-ready [data-reveal].is-visible > :nth-child(5) { transition-delay: 280ms; }
+
+.page-enter .hero-copy > * {
+  animation: hero-copy-in 680ms var(--ease-out) both;
+}
+
+.page-enter .hero-copy > :nth-child(2) { animation-delay: 70ms; }
+.page-enter .hero-copy > :nth-child(3) { animation-delay: 150ms; }
+.page-enter .hero-copy > :nth-child(4) { animation-delay: 230ms; }
+
+.page-enter .route-diagram {
+  animation: diagram-draft-in 760ms var(--ease-out) 120ms both;
+}
+
+.page-enter .route-diagram li {
+  animation: route-node-in 460ms var(--ease-out) both;
+}
+
+.page-enter .route-diagram li:nth-child(1) { animation-delay: 360ms; }
+.page-enter .route-diagram li:nth-child(2) { animation-delay: 470ms; }
+.page-enter .route-diagram li:nth-child(3) { animation-delay: 580ms; }
+.page-enter .route-diagram li:nth-child(4) { animation-delay: 690ms; }
+.page-enter .route-diagram li:nth-child(5) { animation-delay: 800ms; }
+
+.page-enter .route-diagram li::after {
+  animation: route-line-in 420ms var(--ease-out) both;
+}
+
+.page-enter .route-diagram li:nth-child(1)::after { animation-delay: 500ms; }
+.page-enter .route-diagram li:nth-child(2)::after { animation-delay: 610ms; }
+.page-enter .route-diagram li:nth-child(3)::after { animation-delay: 720ms; }
+.page-enter .route-diagram li:nth-child(4)::after { animation-delay: 830ms; }
+
+@keyframes hero-copy-in {
+  from { opacity: 0; transform: translateY(1.25rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes diagram-draft-in {
+  from { opacity: 0; clip-path: inset(0 100% 0 0); }
+  to { opacity: 1; clip-path: inset(0); }
+}
+
+@keyframes route-node-in {
+  from { opacity: 0; clip-path: inset(0 100% 0 0); }
+  to { opacity: 1; clip-path: inset(0); }
+}
+
+@keyframes route-line-in {
+  from { opacity: 0; transform: scale(0); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 .hero {
@@ -361,6 +459,8 @@ summary {
 }
 
 .route-diagram {
+  --reticle-x: 50%;
+  --reticle-y: 50%;
   position: relative;
   grid-column: 7 / -1;
   min-height: 560px;
@@ -370,6 +470,7 @@ summary {
     linear-gradient(to right, transparent calc(50% - 0.5px), var(--line) 50%, transparent calc(50% + 0.5px)),
     linear-gradient(to bottom, transparent calc(50% - 0.5px), var(--line) 50%, transparent calc(50% + 0.5px)),
     color-mix(in srgb, var(--surface) 82%, transparent);
+  perspective: 900px;
 }
 
 .route-diagram::before,
@@ -414,6 +515,8 @@ summary {
 }
 
 .route-diagram li {
+  --node-x: 0px;
+  --node-y: 0px;
   position: absolute;
   display: flex;
   align-items: stretch;
@@ -421,6 +524,14 @@ summary {
   color: var(--ink);
   background: var(--surface);
   border: 1px solid var(--line-strong);
+  transform: translate(var(--node-x), var(--node-y));
+  transition: transform 420ms var(--ease-out), border-color 180ms ease;
+}
+
+.route-diagram li:hover {
+  z-index: 3;
+  border-color: var(--signal);
+  transform: translate(var(--node-x), calc(var(--node-y) - 4px));
 }
 
 .route-diagram li::after {
@@ -477,6 +588,38 @@ summary {
 
 .axis-x { right: 0.8rem; bottom: 0.6rem; }
 .axis-y { top: 4.7rem; left: 0.7rem; writing-mode: vertical-rl; }
+
+.diagram-reticle {
+  position: absolute;
+  top: var(--reticle-y);
+  left: var(--reticle-x);
+  width: 4rem;
+  height: 4rem;
+  pointer-events: none;
+  opacity: 0;
+  border: 1px solid color-mix(in srgb, var(--signal) 70%, transparent);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0.65);
+  transition: opacity 180ms ease, transform 300ms var(--ease-out);
+}
+
+.diagram-reticle::before,
+.diagram-reticle::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  content: '';
+  background: var(--signal);
+  transform: translate(-50%, -50%);
+}
+
+.diagram-reticle::before { width: 5rem; height: 1px; }
+.diagram-reticle::after { width: 1px; height: 5rem; }
+
+.route-diagram:hover .diagram-reticle {
+  opacity: 0.8;
+  transform: translate(-50%, -50%) scale(1);
+}
 
 .manifesto-section,
 .routing-section,
@@ -1099,8 +1242,11 @@ summary {
   border-bottom: 1px solid var(--line);
 }
 
-.composer {
+.composer-reveal {
   grid-column: 1 / -1;
+}
+
+.composer {
   display: grid;
   grid-template-columns: 0.85fr 1.6fr;
   min-height: 580px;
@@ -1182,6 +1328,15 @@ summary {
 
 .composer-output dl {
   margin: 4rem 0 2rem;
+}
+
+.route-update {
+  animation: route-update-in 320ms var(--ease-out) both;
+}
+
+@keyframes route-update-in {
+  from { opacity: 0.35; clip-path: inset(0 0 100% 0); }
+  to { opacity: 1; clip-path: inset(0); }
 }
 
 .composer-output dl > div {
@@ -1409,6 +1564,11 @@ summary {
     padding: 0.6rem 1rem;
     background: var(--surface);
     border: 1px solid var(--line-strong);
+    transform-origin: top right;
+  }
+
+  .mobile-nav[open] nav {
+    animation: menu-in 220ms var(--ease-out) both;
   }
 
   .mobile-nav nav a {
@@ -1426,8 +1586,17 @@ summary {
   }
 }
 
+@keyframes menu-in {
+  from { opacity: 0; transform: scale(0.96) translateY(-0.4rem); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
 @media (max-width: 760px) {
   .site-shell {
+    border-inline: 0;
+  }
+
+  .site-header {
     border-inline: 0;
   }
 
@@ -1456,6 +1625,7 @@ summary {
     inset: auto;
     min-width: 0;
     width: 100%;
+    transform: none;
   }
 
   .route-diagram li::after {
@@ -1570,5 +1740,24 @@ summary {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .diagram-reticle {
+    display: none;
+  }
+
+  .route-diagram li {
+    transform: none !important;
+  }
+
+}
+
+@media (hover: none) {
+  .diagram-reticle {
+    display: none;
+  }
+
+  .route-diagram li {
+    transform: none;
   }
 }
