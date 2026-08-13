@@ -1,6 +1,7 @@
 # DesignKernel
 
-DesignKernel is an orchestration layer for AI-assisted frontend design.
+DesignKernel is an orchestration layer and starter project for AI-assisted
+frontend design.
 
 It combines multiple design engines with persistent product context,
 project-specific design memory, workflows, profiles, review rules, and
@@ -11,9 +12,9 @@ routes the right context and engine to the right stage, resolves conflicts using
 an explicit priority order, and requires review before substantial UI work is
 considered complete.
 
-This repository contains the AtelierOS toolkit and its public project website.
-The website in `src/` includes the landing page, documentation, changelog, and
-interactive route composer.
+The `main` branch contains a neutral React and Vite starter in `src/`. The
+AtelierOS product website is preserved separately on the
+`atelieros-product-web` branch.
 
 ## Architecture
 
@@ -70,17 +71,27 @@ Audit
 | Directory | Responsibility |
 | --- | --- |
 | `atelierOS/` | The complete design toolkit: kernel, engines, rules, profiles, workflows, adapters, templates, and scripts. |
-| `src/` | The actual application workspace, product context, design system memory, decisions, source, and assets. |
+| `src/` | Your starter application workspace, product context, design memory, decisions, source, and assets. |
 | Root files | Whole-system configuration, workspace orchestration, documentation, and agent entry points. |
 
 ## Getting Started
 
-Requirements: Node.js 18.18 or newer and pnpm.
+Requirements: Git, Node.js 18.18 or newer, and Corepack or pnpm.
 
 ```bash
+git clone --recurse-submodules https://github.com/MinhTuan2405/AtelierOS.git my-product
+cd my-product
+corepack enable
 pnpm install
 pnpm design:setup
 pnpm design:doctor
+```
+
+If the repository was cloned without `--recurse-submodules`, initialize the
+engines before setup:
+
+```bash
+git submodule update --init --recursive
 ```
 
 Then replace the prompts in:
@@ -91,11 +102,15 @@ src/DESIGN.md
 src/.design/BRIEF.md
 ```
 
-Website work happens inside `src/`. Run it locally with:
+Application work happens inside `src/`. Run the starter locally with:
 
 ```bash
-pnpm --dir src dev
+pnpm dev
 ```
+
+The initial screen is intentionally neutral. Replace it after defining your
+product context; it is not an AtelierOS visual system that downstream projects
+must preserve.
 
 `design:setup` creates missing project memory and integration directories, then
 performs an initial agent sync. It never overwrites project design files unless
@@ -133,6 +148,9 @@ workflows have reduced capability.
 | `pnpm design:doctor` | Validate required files, configuration, engines, integrations, and symlinks. |
 | `pnpm design:update` | Fast-forward clean Git-managed upstream engines without touching custom DesignKernel content. |
 | `pnpm design:check` | Detect and run available project detector, lint, typecheck, accessibility, and test scripts. |
+| `pnpm dev` | Run the starter application locally. |
+| `pnpm build` | Typecheck and build the application. |
+| `pnpm test` | Run the application tests. |
 
 Use `pnpm design:update -- --engine taste` to target one configured engine.
 

@@ -1,9 +1,9 @@
 {
-  "name": "@atelieros/site",
+  "name": "@atelieros/starter",
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "The public website and interactive introduction for AtelierOS",
+  "description": "A React starter application powered by AtelierOS DesignKernel",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

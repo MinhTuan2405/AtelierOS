@@ -4,7 +4,11 @@
   "private": true,
   "type": "module",
   "description": "AI frontend design orchestration layer and reusable project template",
+  "packageManager": "pnpm@10.33.2",
   "scripts": {
+    "dev": "pnpm --dir src dev",
+    "build": "pnpm --dir src build",
+    "test": "pnpm --dir src test",
     "design:setup": "node atelierOS/scripts/setup.mjs",
     "design:sync": "node atelierOS/scripts/sync.mjs",
     "design:doctor": "node atelierOS/scripts/doctor.mjs",

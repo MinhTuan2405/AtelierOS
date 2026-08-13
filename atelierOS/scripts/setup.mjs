@@ -125,7 +125,7 @@ for (const [engine, settings] of Object.entries(config.engines ?? {})) {
     settings.enabled &&
     !(await engineInstalled(path.join(toolkitRoot, 'engines', engine), settings.entrypoint))
   ) {
-    missingEngines.push(engine);
+    missingEngines.push({ name: engine, repository: settings.repository });
   }
 }
 
@@ -133,7 +133,7 @@ if (missingEngines.length > 0) {
   console.log('\nExternal engine installation required:');
   for (const engine of missingEngines) {
     console.log(
-      `- ${engine}: install ${settings.repository ?? 'the official upstream'} in atelierOS/engines/${engine}.`,
+      `- ${engine.name}: install ${engine.repository ?? 'the official upstream'} in atelierOS/engines/${engine.name}.`,
     );
   }
   console.log('Keep all custom DesignKernel behavior outside atelierOS/engines/.');
