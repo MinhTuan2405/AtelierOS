@@ -5,6 +5,7 @@ belong in version control, not here.
 
 ## Unreleased
 
+- Added the shared AtelierOS registration-mark favicon.
 - Initialized DesignKernel project design memory.
 - Established durable AtelierOS product context and the technical-atelier design system.
 - Added the public Home, Docs, Changelog, and Live Demo routes.

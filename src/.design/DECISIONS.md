@@ -46,3 +46,17 @@ without fabricating runtime AI behavior or unsupported metrics.
 because both would present simulated output as product capability.
 
 **Impact:** Demo content model, UI states, copy, and future integration work.
+
+## 2026-08-13: Browser Icon
+
+**Decision:** Use a simplified vector version of the AtelierOS registration mark
+as the shared browser favicon.
+
+**Reason:** Crisp geometry, reduced whitespace, and flat colors preserve the
+source mark at small browser-tab sizes better than the large raster artwork.
+
+**Alternatives rejected:** Using the source PNG directly would retain soft edges
+and scale the mark too small within its canvas.
+
+**Impact:** The product website and starter share `/favicon.svg` as a recognizable
+browser-level identity.
