@@ -11,8 +11,9 @@ routes the right context and engine to the right stage, resolves conflicts using
 an explicit priority order, and requires review before substantial UI work is
 considered complete.
 
-This repository is the v0.1 scaffold. `src/` is intentionally a placeholder
-workspace; no demo application is included.
+This repository contains the AtelierOS toolkit and its public project website.
+The website in `src/` includes the landing page, documentation, changelog, and
+interactive route composer.
 
 ## Architecture
 
@@ -90,8 +91,11 @@ src/DESIGN.md
 src/.design/BRIEF.md
 ```
 
-Application work happens inside `src/`. Replace its placeholder
-`package.json` when selecting the actual frontend stack.
+Website work happens inside `src/`. Run it locally with:
+
+```bash
+pnpm --dir src dev
+```
 
 `design:setup` creates missing project memory and integration directories, then
 performs an initial agent sync. It never overwrites project design files unless
