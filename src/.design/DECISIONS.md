@@ -81,3 +81,23 @@ scroll, with layout space reserved so content does not jump.
 Primary navigation keeps the fixed header spatially stable and uses one short
 content entrance after each hash-route update. Browser snapshot transitions are
 avoided because they duplicate page motion and delay route feedback.
+
+## 2026-08-15: The signal rail becomes the website structure
+
+**Decision:** Supersede the prior scroll-shrinking header and isolated hero
+diagram with a fixed 72px desktop and 64px mobile header plus a continuous
+signal-rail composition. The route blueprint reacts to pointer position, drafts
+its processing sequence once on arrival, and becomes a linear process on narrow
+screens. Supporting content uses varied editorial layouts and one-time reveals.
+
+**Reason:** The orchestration route is AtelierOS's unique product mechanism. It
+should organize the full narrative rather than appear as one decorative diagram.
+Removing scroll-driven header state also avoids continuous runtime work and keeps
+navigation spatially stable.
+
+**Alternatives rejected:** Restoring the shrinking header would add motion that
+does not explain state. Ambient loops, fake terminal output, and generic product
+screens would either distract from the route or imply unsupported capability.
+
+**Impact:** Home-page hierarchy, route animation, header behavior, responsive
+process layouts, supporting page intros, and future marketing sections.

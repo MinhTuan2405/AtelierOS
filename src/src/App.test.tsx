@@ -22,7 +22,7 @@ describe('AtelierOS site', () => {
     render(<App />);
     const primaryNavigation = screen.getByRole('navigation', { name: 'Primary navigation' });
 
-    expect(screen.getByRole('heading', { level: 1, name: /give design agents a system/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 1, name: /design agents forget.*your repo doesn’t/i })).toBeInTheDocument();
     expect(within(primaryNavigation).getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '#/docs');
     expect(within(primaryNavigation).getByRole('link', { name: 'Changelog' })).toHaveAttribute('href', '#/changelog');
     expect(within(primaryNavigation).getByRole('link', { name: 'Live demo' })).toHaveAttribute('href', '#/demo');
