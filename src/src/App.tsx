@@ -358,7 +358,7 @@ function CodeBlock({ children, label }: { children: string; label: string }) {
 
   return (
     <div className="code-block">
-      <div><span>{label}</span><button type="button" onClick={copy}>{copyStatus === 'copied' ? 'Copied' : copyStatus === 'error' ? 'Copy failed' : 'Copy'}</button></div>
+      <div><span>{label}</span><button type="button" aria-label={`Copy ${label}`} onClick={copy}>{copyStatus === 'copied' ? 'Copied' : copyStatus === 'error' ? 'Copy failed' : 'Copy'}</button></div>
       <pre><code>{children}</code></pre>
       <span className="sr-only" aria-live="polite">{copyStatus === 'copied' ? `${label} copied to clipboard` : copyStatus === 'error' ? `Could not copy ${label.toLowerCase()}` : ''}</span>
     </div>
@@ -379,37 +379,80 @@ function PageIntro({ code, title, children }: { code: string; title: string; chi
 }
 
 const docSections = [
+  { id: 'start', label: 'Start here' },
   { id: 'install', label: 'Install' },
-  { id: 'structure', label: 'Structure' },
-  { id: 'commands', label: 'Commands' },
+  { id: 'portfolio', label: 'Beginner portfolio' },
   { id: 'memory', label: 'Design memory' },
+  { id: 'commands', label: 'Commands' },
+  { id: 'structure', label: 'Structure' },
   { id: 'engines', label: 'Engines' },
 ];
 
 function DocsPage() {
   return (
     <>
-      <PageIntro code="MANUAL" title="Documentation">Install the toolkit, understand its boundaries, and route frontend work through one explicit system.</PageIntro>
+      <PageIntro code="MANUAL" title="Documentation">Start from zero, understand the toolkit's boundaries, and route frontend work through one explicit system.</PageIntro>
       <div className="docs-layout page-grid">
         <aside className="docs-index" aria-label="Documentation index">
           <p>ON THIS PAGE</p>
           {docSections.map((section) => <a key={section.id} href={`#/docs/${section.id}`}>{section.label}</a>)}
         </aside>
         <article className="docs-content">
+          <section id="start" data-reveal>
+            <h2 tabIndex={-1}>Start here</h2>
+            <p>AtelierOS is a control layer for a coding agent, not a no-code site builder or an AI model. It stores product truth, routes the work, and requires review. The agent still writes the interface, and you still supply or approve every public fact.</p>
+            <div className="callout"><strong>GOOD FIT</strong><span>You want source code, can use Git, Node.js, and pnpm with assistance, and have a coding agent that reads repository instructions.</span></div>
+            <div className="callout"><strong>USE ANOTHER TOOL</strong><span>Choose a hosted site builder if you want to select a template and publish without managing code or a repository.</span></div>
+            <div className="callout"><strong>LICENSE</strong><span>The root project does not currently grant redistribution rights. Unless you own it or have separate permission, stop at local development until an applicable root license exists.</span></div>
+          </section>
           <section id="install" data-reveal>
             <h2 tabIndex={-1}>Install</h2>
             <p>Clone with submodules so both engines are available, then initialize workspace adapters and run the health check.</p>
             <CodeBlock label="TERMINAL">{`git clone --recurse-submodules ${REPOSITORY_URL}.git\ncd AtelierOS\npnpm install\npnpm design:setup\npnpm design:doctor`}</CodeBlock>
             <div className="callout"><strong>Requirement</strong><span>Node.js 18.18 or newer and pnpm.</span></div>
           </section>
-          <section id="structure" data-reveal>
-            <h2 tabIndex={-1}>System structure</h2>
-            <p>Reusable policy and product code remain separate, with clear ownership at every layer.</p>
-            <div className="structure-map">
-              <div><strong>ROOT</strong><span>Workspace config and agent entry</span></div>
-              <div><strong>atelierOS/</strong><span>Kernel, rules, profiles, workflows, engines</span></div>
-              <div><strong>src/</strong><span>Application, product context, design memory</span></div>
-            </div>
+          <section id="portfolio" data-reveal>
+            <h2 tabIndex={-1}>Your first portfolio</h2>
+            <p>You do not need finished case studies to begin. Start with a truthful personal profile, omit empty sections, and add evidence as you create it. Never ask the agent to manufacture clients, results, testimonials, employers, or proficiency.</p>
+            <ol className="guide-steps">
+              <li><span>01</span><div><strong>Inventory real content</strong><p>Collect your public name, direction, audience, current skills, education or transferable experience, learning notes, verified links, and one safe contact method.</p></div></li>
+              <li><span>02</span><div><strong>Create a branch</strong><p>Run <code>git switch -c portfolio</code>, then start the current app with <code>pnpm --dir src dev</code> to confirm the workspace works before editing.</p></div></li>
+              <li><span>03</span><div><strong>Replace product memory</strong><p>Rewrite <code>src/PRODUCT.md</code>, <code>src/DESIGN.md</code>, and <code>src/.design/BRIEF.md</code>. Do not append your identity beneath the existing AtelierOS product facts.</p></div></li>
+              <li><span>04</span><div><strong>Direct the agent</strong><p>Ask it to use DesignKernel and the portfolio profile, preserve the React and Vite build, avoid fabricated content, implement responsive and accessible behavior, and complete review.</p></div></li>
+              <li><span>05</span><div><strong>Verify every claim</strong><p>Read all public text, test every link, inspect mobile and desktop layouts, navigate by keyboard, run the checks, and preview the production build.</p></div></li>
+              <li><span>06</span><div><strong>Prepare to publish</strong><p>Confirm redistribution permission first. The build appears in <code>src/dist/</code>, but hosting, domains, analytics, and form processing are separate decisions, not AtelierOS features.</p></div></li>
+            </ol>
+            <h3>Use honest sections</h3>
+            <dl className="definition-grid portfolio-content-grid">
+              <div><dt>INTRODUCTION</dt><dd>Your name, the field you are pursuing, and one clear next action.</dd></div>
+              <div><dt>ABOUT</dt><dd>A short biography grounded in your actual interests and experience.</dd></div>
+              <div><dt>NOW</dt><dd>What you are currently learning, building, or looking for.</dd></div>
+              <div><dt>EVIDENCE</dt><dd>Coursework, experiments, volunteering, or employment labeled accurately. Omit this section if there is nothing useful yet.</dd></div>
+              <div><dt>CONTACT</dt><dd>Only verified public links and information that is safe to share.</dd></div>
+              <div><dt>LATER</dt><dd>Add case studies one at a time when you can explain your role, constraints, process, and outcome.</dd></div>
+            </dl>
+            <div className="callout warning-callout"><strong>NO FAKE WORK</strong><span>A focused personal site without projects is more credible than invented case studies. Remove unsupported sections rather than filling them with generic copy.</span></div>
+            <h3>Draft the three files</h3>
+            <p className="section-note">These are planning outlines, not complete replacement files. Expand each point under the existing headings in the matching file. The README contains full Markdown examples.</p>
+            <CodeBlock label="PRODUCT.md OUTLINE">{`Product: [Your name] Portfolio\nAudience: [Who should understand or contact you]\nGoal: Explain my direction and provide one contact path\nProof available now: [Only real experience or learning work]\nNon-goal: Pretend that exercises are paid client projects\nVoice: Clear, curious, grounded, concise\nPrivacy: Do not expose sensitive personal information`}</CodeBlock>
+            <CodeBlock label="DESIGN.md OUTLINE">{`Direction: Calm editorial portfolio with readable body text\nTheme: [Light, dark, or system controlled]\nCharacter: [Three observable qualities]\nAccent: One restrained color for actions and focus\nMotion: Short state changes only; respect reduced motion\nAvoid: Skill percentages, fake device mockups, and oversized empty heroes\nResponsive: Support 320px, 768px, laptop, and 200% zoom`}</CodeBlock>
+            <CodeBlock label=".design/BRIEF.md OUTLINE">{`Task: Replace the current app with a one-page personal portfolio\nClassification: Portfolio\nAudience: [Primary visitor]\nPrimary goal: Understand my direction and contact me\nRequired: Intro, about, current learning, real evidence if available, contact\nPreserve: React, TypeScript, Vite, DesignKernel memory and review\nConstraints: No fabricated work or private information; WCAG 2.2 AA\nSuccess: Accurate content, working links, responsive layout, passing checks`}</CodeBlock>
+            <h3>Give the agent a complete prompt</h3>
+            <CodeBlock label="AGENT REQUEST">{`Build my first personal portfolio in the src application. I am new to frontend development and do not have finished portfolio projects yet.\n\nUse DesignKernel and the portfolio profile. Read src/PRODUCT.md, src/DESIGN.md, src/.design/BRIEF.md, src/.design/REFERENCES.md, and src/.design/DECISIONS.md before editing. Inspect the current React and Vite app, then build the smallest honest portfolio described by the brief.\n\nDo not invent projects, clients, metrics, testimonials, skills, links, or personal details. Ask one clear question only when missing information materially changes the structure. Implement semantic HTML, keyboard access, visible focus, responsive behavior from 320px upward, reflow at 200% zoom, and reduced-motion support. Run available checks, complete design review, fix BLOCKER and MAJOR findings, and record durable decisions.`}</CodeBlock>
+            <h3>Check before publishing</h3>
+            <CodeBlock label="TERMINAL">{`pnpm design:doctor\npnpm design:check\npnpm --dir src build\npnpm --dir src preview`}</CodeBlock>
+            <p className="section-note">Read every sentence and test every link. Use the preview at phone and laptop widths, then navigate using only the keyboard. A skipped automated capability is not a pass, and automation cannot verify that your story is truthful.</p>
+            <div className="callout"><strong>PUBLISHING STOP</strong><span>Confirm that you own the repository or have permission to redistribute it before deployment. Otherwise keep the result local until a root license applies.</span></div>
+          </section>
+          <section id="memory" data-reveal>
+            <h2 tabIndex={-1}>Design memory</h2>
+            <p>Each context file answers one question so temporary task detail cannot silently become permanent policy.</p>
+            <dl className="definition-grid">
+              <div><dt>PRODUCT.md</dt><dd>What the product is, who it serves, and what it can promise.</dd></div>
+              <div><dt>DESIGN.md</dt><dd>The established visual, interaction, responsive, and accessibility system.</dd></div>
+              <div><dt>BRIEF.md</dt><dd>The active task, behavior, constraints, and success criteria.</dd></div>
+              <div><dt>DECISIONS.md</dt><dd>An append-only record of durable choices and rejected alternatives.</dd></div>
+            </dl>
           </section>
           <section id="commands" data-reveal>
             <h2 tabIndex={-1}>Commands</h2>
@@ -423,15 +466,14 @@ function DocsPage() {
               ].map(([command, detail]) => <div key={command}><code>{command}</code><p>{detail}</p></div>)}
             </div>
           </section>
-          <section id="memory" data-reveal>
-            <h2 tabIndex={-1}>Design memory</h2>
-            <p>Each context file answers one question so temporary task detail cannot silently become permanent policy.</p>
-            <dl className="definition-grid">
-              <div><dt>PRODUCT.md</dt><dd>What the product is, who it serves, and what it can promise.</dd></div>
-              <div><dt>DESIGN.md</dt><dd>The established visual, interaction, responsive, and accessibility system.</dd></div>
-              <div><dt>BRIEF.md</dt><dd>The active task, behavior, constraints, and success criteria.</dd></div>
-              <div><dt>DECISIONS.md</dt><dd>An append-only record of durable choices and rejected alternatives.</dd></div>
-            </dl>
+          <section id="structure" data-reveal>
+            <h2 tabIndex={-1}>System structure</h2>
+            <p>Reusable policy and product code remain separate, with clear ownership at every layer.</p>
+            <div className="structure-map">
+              <div><strong>ROOT</strong><span>Workspace config and agent entry</span></div>
+              <div><strong>atelierOS/</strong><span>Kernel, rules, profiles, workflows, engines</span></div>
+              <div><strong>src/</strong><span>Application, product context, design memory</span></div>
+            </div>
           </section>
           <section id="engines" data-reveal>
             <h2 tabIndex={-1}>Engine routing</h2>
@@ -458,6 +500,7 @@ function ChangelogPage() {
               <li>Established the technical-atelier visual system in light and dark modes.</li>
               <li>Added a functional route composer based on real profiles and workflows.</li>
               <li>Added purposeful route motion and responsive interaction states.</li>
+              <li>Added a detailed beginner path for an honest first portfolio.</li>
             </ul>
           </article>
           <article data-reveal>

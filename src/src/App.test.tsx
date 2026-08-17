@@ -43,6 +43,16 @@ describe('AtelierOS site', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Documentation' })).toBeInTheDocument();
   });
 
+  it('provides an honest beginner portfolio path', () => {
+    window.location.hash = '#/docs';
+    render(<App />);
+
+    expect(screen.getByRole('heading', { level: 2, name: 'Your first portfolio' })).toBeInTheDocument();
+    expect(screen.getByText(/focused personal site without projects is more credible/i)).toBeInTheDocument();
+    expect(screen.getByText(/do not invent projects, clients, metrics/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Copy PRODUCT.md OUTLINE' })).toBeInTheDocument();
+  });
+
   it('composes a route from the selected surface', () => {
     window.location.hash = '#/demo';
     render(<App />);

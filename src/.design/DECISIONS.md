@@ -101,3 +101,23 @@ screens would either distract from the route or imply unsupported capability.
 
 **Impact:** Home-page hierarchy, route animation, header behavior, responsive
 process layouts, supporting page intros, and future marketing sections.
+
+## 2026-08-18: Documentation includes an honest beginner path
+
+**Decision:** Keep the primary product audience technical while adding one
+indexed, practical portfolio walkthrough for users who have no frontend
+experience or finished projects. The walkthrough explicitly separates
+AtelierOS, the coding agent, user-supplied facts, verification, and hosting.
+
+**Reason:** Installation and architecture reference alone does not help a novice
+translate the toolkit into a safe first project. A concrete path demonstrates
+the memory model without implying that AtelierOS is a no-code builder or that an
+agent should fabricate portfolio evidence.
+
+**Alternatives rejected:** Repositioning the entire product around beginners
+would conflict with the established primary audience. Publishing a portfolio
+template with placeholder case studies would encourage unsupported claims and
+obscure how project memory directs different outcomes.
+
+**Impact:** README information architecture, in-app documentation navigation,
+portfolio guidance, content integrity language, and future onboarding examples.

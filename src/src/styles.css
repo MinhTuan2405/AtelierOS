@@ -559,10 +559,11 @@ main h1:focus { outline: none; }
 .docs-content section { padding-bottom: clamp(5rem, 10vw, 8rem); }
 .docs-content h2 { margin: 0; font-size: clamp(2.4rem, 4.5vw, 4.4rem); font-weight: 610; line-height: 0.95; letter-spacing: -0.06em; }
 .docs-content h2:focus { outline: none; }
+.docs-content h3 { margin: 4rem 0 1.25rem; font-size: clamp(1.5rem, 2.5vw, 2.25rem); line-height: 1.05; letter-spacing: -0.04em; }
 .docs-content section > p { max-width: 65ch; margin: 1.4rem 0 2rem; color: var(--ink-soft); line-height: 1.75; }
-.callout { display: grid; grid-template-columns: 8rem 1fr; gap: 1.5rem; padding: 1.25rem; background: var(--surface-strong); }
+.callout { display: grid; grid-template-columns: 8rem 1fr; gap: 1.5rem; margin-top: 1px; padding: 1.25rem; background: var(--surface-strong); }
 .callout strong { color: var(--signal-dark); font: 0.64rem/1.5 var(--font-mono); }
-.callout span { color: var(--ink-soft); font-size: 0.88rem; }
+.callout span { color: var(--ink-soft); font-size: 0.88rem; line-height: 1.55; }
 .structure-map { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 2rem; background: var(--line-strong); border: 1px solid var(--line-strong); }
 .structure-map div { display: grid; align-content: space-between; min-height: 180px; padding: 1.3rem; background: var(--surface); }
 .structure-map strong, .definition-grid dt { color: var(--signal-dark); font: 0.68rem/1.4 var(--font-mono); }
@@ -575,6 +576,16 @@ main h1:focus { outline: none; }
 .definition-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin: 2rem 0 0; background: var(--line); border: 1px solid var(--line); }
 .definition-grid div { min-height: 170px; padding: 1.5rem; background: var(--surface); }
 .definition-grid dd { margin: 2rem 0 0; color: var(--ink-soft); font-size: 0.86rem; line-height: 1.55; }
+.guide-steps { margin: 2rem 0 0; padding: 0; list-style: none; border-top: 1px solid var(--line-strong); }
+.guide-steps li { display: grid; grid-template-columns: 3rem 1fr; gap: 1.5rem; padding: 1.5rem 0; border-bottom: 1px solid var(--line); }
+.guide-steps li > span { color: var(--signal-dark); font: 0.62rem/1.5 var(--font-mono); }
+.guide-steps strong { font-size: 1.05rem; }
+.guide-steps p { max-width: 62ch; margin: 0.55rem 0 0; color: var(--ink-soft); font-size: 0.88rem; line-height: 1.65; }
+.guide-steps code { color: var(--signal-dark); font: 0.72rem/1.5 var(--font-mono); overflow-wrap: anywhere; }
+.portfolio-content-grid { grid-template-columns: repeat(3, 1fr); }
+.portfolio-content-grid div { min-height: 190px; }
+.warning-callout { margin-top: 1px; background: color-mix(in srgb, var(--signal) 9%, var(--surface-strong)); }
+.docs-content .section-note { margin-top: 1rem; padding-left: 1.25rem; border-left: 2px solid var(--signal); }
 
 .changelog { align-items: start; padding-block: clamp(4rem, 8vw, 7rem); }
 .changelog > aside { position: sticky; top: 7rem; grid-column: 1 / span 3; display: grid; gap: 0.6rem; }
@@ -663,7 +674,7 @@ main h1:focus { outline: none; }
   .problem-statement, .failure-field, .route-story-intro, .route-story-list, .memory-heading h2, .memory-heading p, .engine-section > header, .install-section > div, .install-section > .code-block, .page-code, .page-intro > div, .docs-index, .docs-content, .changelog > aside, .release-list, .demo-notes h2, .demo-notes > div { grid-column: 1 / -1; }
   .failure-field, .route-story-list, .memory-heading p, .install-section > .code-block, .page-intro > div, .docs-content, .release-list, .demo-notes > div { margin-top: 3rem; }
   .route-story-intro, .docs-index, .changelog > aside { position: static; }
-  .docs-index { grid-template-columns: repeat(5, 1fr); margin-bottom: 4rem; }
+  .docs-index { grid-template-columns: repeat(4, 1fr); margin-bottom: 4rem; }
   .docs-index p { grid-column: 1 / -1; }
   .engine-routing { grid-template-columns: 1fr 8rem 1fr; }
   .review-mark { grid-column: 1 / span 3; }
@@ -727,7 +738,7 @@ main h1:focus { outline: none; }
   .page-intro { min-height: 390px; }
   .page-intro h1 { font-size: clamp(3rem, 14vw, 5rem); }
   .docs-index { grid-template-columns: 1fr 1fr; }
-  .structure-map, .command-grid, .definition-grid, .release-list ul { grid-template-columns: 1fr; }
+  .structure-map, .command-grid, .definition-grid, .portfolio-content-grid, .release-list ul { grid-template-columns: 1fr; }
   .command-grid > div:last-child { grid-column: auto; }
   .release-list header { display: grid; }
   .composer-controls { grid-template-columns: 1fr; }
